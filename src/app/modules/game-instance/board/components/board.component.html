@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-content>
+    <div class="board-container">
+      <div *ngFor="let row of boardTemp?.cells; let i = index">
+        <div class="horizontal">
+          <div
+            *ngFor="let cell of row;  let j = index"
+            class="board-cell"
+            cdkDropList
+            [id]="i + '' + j"
+            [cdkDropListData]="cell"
+            [cdkDropListConnectedTo]="mainListId"
+            (cdkDropListDropped)="dropToBoard($event, i, j, boardTemp)"
+            [ngStyle]="{background: cell[0].isRotated ? 'url(' + cell[0].imagePathRotated + ')' : 'url(' + cell[0].imagePath + ')',
+              'background-color': cell[0]?.enabled ? 'green' : 'grey'}"
+            [cdkDropListEnterPredicate]="dropToBoardEnterPredicate(i, j, boardTemp, player)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

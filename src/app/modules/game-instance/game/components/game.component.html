@@ -1,0 +1,36 @@
+<div class="parent">
+  <div class="left-side">
+    <app-game-state
+      [discardPile]="game.discardPileState"
+      [players]="game.players"
+      [loggedUserId]="loggedUserId"
+      [deck]="game.deckState"
+      (turnEnd)="endTurn()">
+    </app-game-state>
+  </div>
+  <div class="main">
+    <app-board
+      [board]="game.boardState"
+      [discardPile]="game.discardPileState"
+      [players]="game.players"
+      [loggedUserId]="loggedUserId"
+      (turnEnd)="endTurn()">
+    </app-board>
+  </div>
+  <div class="right-side">
+    <app-players
+      [players]="game.players"
+      [currentPlayerIndex]="game.currentPlayerIndex"
+      [loggedUserId]="loggedUserId"
+      (turnEnd)="endTurn()">
+    </app-players>
+  </div>
+  <div class="footer">
+    <app-player-hand
+      [players]="game.players"
+      [deck]="game.deckState"
+      [boardFieldsDropIds]="game.boardState.boardFieldsIds"
+      [currentPlayerIndex]="game.currentPlayerIndex">
+    </app-player-hand>
+  </div>
+</div>

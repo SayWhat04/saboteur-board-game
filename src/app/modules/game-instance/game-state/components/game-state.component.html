@@ -1,0 +1,52 @@
+<mat-card class="game-state-container">
+  <mat-card-content>
+    <mat-card class="game-state-card">
+      <mat-card-header>
+        <mat-card-title>Your Role</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="container">
+          <div
+            class="card"
+            [ngStyle]="{background: player?.playerRole === saboteurRole ?
+            'url(' + saboteurImagePath + ')': 'url(' + minerImagePath + ')'}">
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="game-state-card">
+      <mat-card-header>
+        <mat-card-title>Info</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="container">
+          <h3>Deck: {{ deck.length }}</h3>
+          <h3>Gold: </h3>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="game-state-card">
+      <mat-card-header>
+        <mat-card-title>Discard Pile</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="container">
+          <div [matBadge]="discardPileTempContainer.length - 1"
+               matBadgePosition="before"
+               matBadgeSize="large"
+               matBadgeColor="accent">
+            <div
+              cdkDropList
+              class="discard-pile"
+              [id]=discardPileId
+              [cdkDropListData]="discardPileTempContainer"
+              [cdkDropListConnectedTo]=mainListId
+              (cdkDropListDropped)="dropToDiscardPile($event)"
+              [ngStyle]="{background: 'url(' + discardPileTempContainer[0]?.imagePath + ')'}">
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

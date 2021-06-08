@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Choose tool to repair</h1>
+<div mat-dialog-actions>
+  <div *ngFor="let tool of data.tools">
+    <button
+      *ngIf="tool === ActionCardType.REPAIR_LAMP"
+      mat-button
+      [mat-dialog-close]="ActionCardType.REPAIR_LAMP">Lamp
+    </button>
+    <button
+      *ngIf="tool === ActionCardType.REPAIR_CART"
+      mat-button
+      [mat-dialog-close]="ActionCardType.REPAIR_CART">Cart
+    </button>
+    <button
+      *ngIf="tool === ActionCardType.REPAIR_PICKAXE"
+      mat-button
+      [mat-dialog-close]="ActionCardType.REPAIR_PICKAXE">Pickax
+    </button>
+  </div>
+</div>
+

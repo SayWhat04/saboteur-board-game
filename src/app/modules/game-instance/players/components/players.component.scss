@@ -1,0 +1,30 @@
+.players-container {
+  background-color: #211e1e;
+  padding: 10px 0px;
+}
+
+.horizontal {
+  display: flex;
+}
+
+.player-card {
+  width: 400px;
+  margin: 0px 10px 10px;
+}
+
+.player-action-card-placeholder {
+  height: 50px;
+  width: 50px;
+  border: solid 1px #ccc;
+}
+
+.mat-standard-chip {
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  padding: 2px 5px;
+  border-radius: 16px;
+  align-items: center;
+  cursor: default;
+  min-height: 26px;
+  height: 1px;
+}

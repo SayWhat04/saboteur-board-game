@@ -1,0 +1,34 @@
+<div class="dialog-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <span>New game</span>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="newGameFormGroup">
+        <mat-form-field hintLabel="Max 10 characters" appearance="outline">
+          <mat-label>Enter name</mat-label>
+          <input matInput #input maxlength="10" [formControl]="nameFormControl">
+          <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Number of players</mat-label>
+          <mat-select #select [formControl]="playersFormControl">
+            <mat-option *ngFor="let number of possibleNoOfPlayers" [value]=number>
+              {{ number }}
+            </mat-option>
+          </mat-select>
+          <mat-hint align="end">Max. 10</mat-hint>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button color="accent"
+              [disabled]="!newGameFormGroup.valid"
+              (click)="createGame(input.value, select.value)">
+        Create
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

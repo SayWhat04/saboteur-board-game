@@ -1,0 +1,42 @@
+.game-state-container {
+  background-color: #211e1e;
+  padding: 10px 0px;
+}
+
+.game-state-card {
+  margin: 10px;
+  max-width: 120px;
+}
+
+.container {
+  display: block;
+}
+
+.discard-pile {
+  height: 120px;
+  width: 80px;
+  border: solid 1px #ccc;
+  display: flex;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  background-size: cover !important;
+}
+
+.card {
+  height: 120px;
+  width: 80px;
+  border: solid 1px #ccc;
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+  background-size: cover !important;
+}
+
+.games-container {
+  height: 120px;
+  width: 80px;
+  border: solid 1px #ccc;
+  background-size: cover !important;
+  flex-shrink: 0;
+}

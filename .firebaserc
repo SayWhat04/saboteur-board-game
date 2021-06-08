@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "saboteur-game-backend": {
+      "hosting": {
+        "BoardGamesTest": [
+          "saboteur-game-backend"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<div *ngIf="chat$ | async as chat">
+  <div *ngIf=" auth.user$ | async as user">
+    <div class="message-container">
+      <mat-card *ngFor="let msg of chat.messages; trackBy: trackByCreated" class="message-card">
+        <mat-card-content>
+          <div class="horizontal">
+            {{ msg.user?.displayName || msg.user?.uid }}:
+            {{ msg.content }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="form">
+      <mat-form-field class="message-input">
+        <input matInput [(ngModel)]="newMsg" (keydown.enter)="submitMessage(chat.id)">
+      </mat-form-field>
+      <button mat-icon-button color="primary" (click)="submitMessage(chat.id)" [disabled]="!newMsg">
+        <mat-icon>done</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

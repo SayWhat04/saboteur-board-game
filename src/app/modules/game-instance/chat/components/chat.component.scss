@@ -1,0 +1,20 @@
+.message-container {
+  padding: 5px;
+  height: 150px;
+  overflow-y: scroll;
+  border: solid 1px black;
+}
+
+.message-card {
+  width: 500px;
+  border: solid 1px grey;
+  padding: 5px;
+}
+
+.message-input {
+  font-size: 14px;
+}
+
+.horizontal {
+  display: flex;
+}

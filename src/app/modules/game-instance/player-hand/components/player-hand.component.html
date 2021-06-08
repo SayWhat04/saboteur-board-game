@@ -1,0 +1,28 @@
+<mat-card>
+  <mat-card-content>
+    <div class="horizontal">
+      <div class="player-hand-container">
+        <div
+          class="player-hand"
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          [id]=playerHandListId
+          [cdkDropListData]="player?.cardsInHand"
+          [cdkDropListConnectedTo]=playersNames.concat(this.boardFieldsDropIds).concat([discardPileListId])
+          (cdkDropListDropped)="moveCardInHand($event)">
+          <div
+            *ngFor="let item of player?.cardsInHand; let i = index"
+            class="card"
+            cdkDrag
+            [cdkDragData]="item"
+            [cdkDragDisabled]=!isLoggedPlayerTurn()
+            [ngStyle]="{background: item.isRotated ? 'url(' + item.imagePathRotated + ')' : 'url(' + item.imagePath + ')'}">
+            <button mat-mini-fab color="accent" *ngIf="item.cardType===pathCard" (click)="rotatePathCard(i)">
+              <mat-icon>rotate_right</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

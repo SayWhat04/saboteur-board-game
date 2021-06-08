@@ -1,0 +1,40 @@
+<mat-card class="players-container">
+  <mat-card-content>
+    <mat-card *ngFor="let player of playersTempContainer; let i = index" class="player-card">
+      <div class="horizontal">
+        <div
+          class="player-action-card-placeholder"
+          cdkDropList
+          [id]="player.name"
+          [cdkDropListData]="player.actionsCardUsedOnPlayer"
+          [cdkDropListConnectedTo]="mainListId"
+          (cdkDropListDropped)="dropToPlayerTile($event, player)"
+          [cdkDropListEnterPredicate]="dropToPlayerCardEnterPredicate(player)">
+          <mat-spinner
+            diameter="50"
+            [mode]="player.uid === players[currentPlayerIndex].uid ? 'indeterminate' : 'determinate'">
+          </mat-spinner>
+        </div>
+        <mat-card-header>
+          <mat-card-title>{{ getPlayerByUid(player.uid).name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-chip-list>
+            <mat-chip
+              selected
+              color="{{ getPlayerByUid(player.uid).isCartValid ? 'accent' : 'warn' }}">Cart
+            </mat-chip>
+            <mat-chip
+              selected
+              color="{{ getPlayerByUid(player.uid).isLampValid ? 'accent' : 'warn' }}">Lamp
+            </mat-chip>
+            <mat-chip
+              selected
+              color="{{ getPlayerByUid(player.uid).isPickaxeValid ? 'accent' : 'warn' }}">Pickax
+            </mat-chip>
+          </mat-chip-list>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

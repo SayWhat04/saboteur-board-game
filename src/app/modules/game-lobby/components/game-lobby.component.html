@@ -1,0 +1,14 @@
+<div class="container">
+  <p>List of players connected to game</p>
+  <div>
+    <mat-card *ngFor="let player of (game$ | async)?.players" class="single-player">
+      <mat-card-content>
+        <span>{{ player.name }}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <button mat-raised-button
+          color="primary"
+          (click)="startGame()"
+          [disabled]="canGameBeStarted()">Start Game</button>
+</div>

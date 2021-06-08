@@ -1,0 +1,19 @@
+.board-container {
+  width: 820px;
+  height: 610px;
+  overflow-y: auto;
+  overflow-x: auto;
+  background: white;
+}
+
+.horizontal {
+  display: flex;
+}
+
+.board-cell {
+  height: 120px;
+  width: 80px;
+  border: solid 1px #ccc;
+  background-size: cover !important;
+  flex-shrink: 0;
+}
