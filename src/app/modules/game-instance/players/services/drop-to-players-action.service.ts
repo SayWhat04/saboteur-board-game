@@ -13,7 +13,8 @@ export class DropToPlayersActionService implements DropAction {
   constructor(private dialogUtilsService: DialogUtilsService) {
   }
 
-  drop(cdkDragDropEvent: CdkDragDrop<[Card], any>, additionalData: {player: Player}): void {
+  drop(cdkDragDropEvent: CdkDragDrop<[Card], any>, additionalData: { player: Player }): void {
+
     const actionCardType = (cdkDragDropEvent.previousContainer.data[cdkDragDropEvent.previousIndex] as ActionCard).type;
     const dragContainer = cdkDragDropEvent.previousContainer;
     const dropContainer = cdkDragDropEvent.container;

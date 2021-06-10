@@ -12,7 +12,7 @@
           [cdkDropListEnterPredicate]="dropToPlayerCardEnterPredicate(player)">
           <mat-spinner
             diameter="50"
-            [mode]="player.uid === players[currentPlayerIndex].uid ? 'indeterminate' : 'determinate'">
+            [mode]="player.uid === playersTempContainer[currentPlayerIndex].uid ? 'indeterminate' : 'determinate'">
           </mat-spinner>
         </div>
         <mat-card-header>

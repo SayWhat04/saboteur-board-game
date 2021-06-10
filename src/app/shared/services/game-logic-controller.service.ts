@@ -48,6 +48,9 @@ export class GameLogicController {
 
     game.players.forEach(player => {
       player.cardsInHand = [];
+      player.isLampValid = true;
+      player.isCartValid = true;
+      player.isPickaxeValid = true;
       for (let i = 0; i < handSize; i++) {
         player.cardsInHand.push(Object.assign({}, gameDeck.drawCard()));
       }

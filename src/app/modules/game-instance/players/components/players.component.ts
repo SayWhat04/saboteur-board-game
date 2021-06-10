@@ -15,7 +15,10 @@ import {GameLogicController} from '../../../../shared/services/game-logic-contro
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit {
-  @Input() players: Array<Player>;
+  @Input()
+  set players(players: Array<Player>) {
+    this.playersTempContainer = players;
+  }
   @Input() currentPlayerIndex: number;
   @Input() loggedUserId: string;
   @Output() turnEnd: EventEmitter<void> = new EventEmitter<void>();
@@ -33,7 +36,7 @@ export class PlayersComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameId = this.route.snapshot.paramMap.get('id');
-    this.playersTempContainer = this.players;
+    // this.playersTempContainer = this.players;
   }
 
   public dropToPlayerCardEnterPredicate(player: Player) {
@@ -56,6 +59,6 @@ export class PlayersComponent implements OnInit {
   }
 
   public getPlayerByUid(userId: string): Player {
-    return (this.players as Array<Player>).find(player => player.uid === userId);
+    return (this.playersTempContainer as Array<Player>).find(player => player.uid === userId);
   }
 }
