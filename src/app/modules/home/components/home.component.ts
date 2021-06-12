@@ -19,7 +19,7 @@ import {User} from '../../../shared/models/user';
 export class HomeComponent implements OnInit {
   games$: Observable<Game[]>;
   displayedColumns: string[] = ['name', 'createdAt', 'gameHost', 'noOfPlayers', 'started'];
-  dataSource: any; // TODO: Add types
+  dataSource: Game[];
 
   constructor(public auth: AuthService,
               private router: Router,
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   }
 
   public createGame(): any {
-    this.dialogUtilsService.openNewGameCreationDialog({panelClass: 'new-game-instance-dialog-container'});
+    this.dialogUtilsService.openNewGameCreationDialog({panelClass: 'new-game-dialog-container'});
   }
 
   public async openGameLobby(gameId: string) {

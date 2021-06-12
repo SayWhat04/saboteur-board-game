@@ -29,10 +29,10 @@ export class DropToBoardActionService implements DropAction {
         this.dropMap(cdkDragDropEvent, additionalData.fieldRowIndex, additionalData.fieldColumnIndex, additionalData.board);
       } else if (draggedCard.cardType === CardType.ACTION_CARD && draggedCard.type === ActionCardType.ROCK_FALL) {
         this.dropRockFall(cdkDragDropEvent, additionalData.fieldRowIndex, additionalData.fieldColumnIndex, additionalData.board);
-        additionalData.board.disableEnabledFields();
+        additionalData.board.disablePreviouslyEnabledFields();
       } else if (draggedCard.cardType === CardType.PATH_CARD) {
         this.dropPath(cdkDragDropEvent, additionalData.fieldRowIndex, additionalData.fieldColumnIndex, additionalData.board);
-        additionalData.board.enableEnabledFields(); // TODO: Think how to rename this
+        additionalData.board.enablePreviouslyEnabledFields();
       }
     }
   }

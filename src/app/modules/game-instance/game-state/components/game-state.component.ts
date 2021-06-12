@@ -9,6 +9,7 @@ import {Game} from '../../../../shared/models/game';
 import {PlayerRole} from '../../../../shared/models/player-role.enum';
 import {DropToDiscardPileActionService} from '../services/drop-to-discard-pile-action.service';
 import {GameLogicController} from '../../../../shared/services/game-logic-controller.service';
+import {MINER_IMAGE_PATH, SABOTEUR_IMAGE_PATH} from '../../../../configs/game-specific-const';
 
 @Component({
   selector: 'app-game-state',
@@ -38,9 +39,8 @@ export class GameStateComponent implements OnInit {
   saboteurRole = PlayerRole.SABOTEUR;
   minerRole = PlayerRole.MINER;
 
-  // TODO Move elsewhere:
-  saboteurImagePath = '/assets/images/saboteur_role.png';
-  minerImagePath = '/assets/images/miner_role.png';
+  saboteurImagePath = SABOTEUR_IMAGE_PATH;
+  minerImagePath = MINER_IMAGE_PATH;
 
   constructor(private dropActionService: DropToDiscardPileActionService,
               private gamesService: GamesService,
@@ -56,12 +56,6 @@ export class GameStateComponent implements OnInit {
   public async dropToDiscardPile(cdkDragDropEvent: CdkDragDrop<[Card], any>) {
     this.dropActionService.drop(cdkDragDropEvent);
 
-    // TODO: Move to separate method
-    // const playerIndex = this.playersTempContainer.indexOf(this.playersTempContainer
-    //   .find(pl => pl.uid === this.loggedUserId));
-    // this.playersTempContainer[playerIndex].cardsInHand = cdkDragDropEvent.previousContainer.data;
-
-    // TODO: Test
     this.playersTempContainer = this.gameLogicController.updatePlayerHand(this.playersTempContainer,
       this.loggedUserId, cdkDragDropEvent.previousContainer.data);
 

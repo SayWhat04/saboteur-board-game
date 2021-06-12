@@ -9,7 +9,7 @@ import {Board} from '../models/board/board';
 import {BoardToDbBoardConverter} from './board/board-to-db-board-converter';
 import {Game} from '../models/game';
 import {GoldNuggetCard} from '../models/cards/gold-nugget-card';
-import {goldForSaboteurs, miners, saboteurs, startingHand} from '../../configs/game-specific-const';
+import {GOLD_FOR_SABOTEURS, IMAGES_PATH, MINERS, SABOTEURS, STARTING_HAND} from '../../configs/game-specific-const';
 import {GamesService} from './games/games.service';
 import {PathCard} from '../models/cards/path-card';
 import {ChatService} from '../../modules/game-instance/chat/services/chat.service';
@@ -29,8 +29,8 @@ export class GameLogicController {
   async startRound(gameId: string, game: Game) {
     // 1. Pick a role for each player (Saboteur or Miner).
     // Generate array with roles and later, during iteration, draw role.
-    const noOfSaboteurs = saboteurs.get(game.maxNumberOfPlayers);
-    const noOfMiners = miners.get(game.maxNumberOfPlayers);
+    const noOfSaboteurs = SABOTEURS.get(game.maxNumberOfPlayers);
+    const noOfMiners = MINERS.get(game.maxNumberOfPlayers);
 
     const playersRoles = new Array<PlayerRole>();
     for (let i = 0; i < noOfSaboteurs; i++) {
@@ -44,7 +44,7 @@ export class GameLogicController {
     const gameDeck = new GameDeck();
 
     // 3. Draw a starting hand for each player.
-    const handSize = startingHand.get(game.maxNumberOfPlayers);
+    const handSize = STARTING_HAND.get(game.maxNumberOfPlayers);
 
     game.players.forEach(player => {
       player.cardsInHand = [];
@@ -67,7 +67,7 @@ export class GameLogicController {
 
     // 6. Generate discard deck.
     const discardPile: Array<Card> = new Array<Card>();
-    discardPile.push(Object.assign({}, new Card(CardType.PLACEHOLDER, '/assets/images/end_placeholder.png')));
+    discardPile.push(Object.assign({}, new Card(CardType.PLACEHOLDER, `${IMAGES_PATH}end_placeholder.png`)));
 
     // 7. Create initial board state.
     const board = new Board();
@@ -200,7 +200,7 @@ export class GameLogicController {
     goldNuggetsDeck.cards.sort((a, b) => (a.value < b.value) ? 1 : -1);
 
     const nuggetsPerSaboteur = new Array<Array<GoldNuggetCard>>();
-    const sumOfGoldValues = goldForSaboteurs.get(noOfSaboteurs);
+    const sumOfGoldValues = GOLD_FOR_SABOTEURS.get(noOfSaboteurs);
 
     for (let i = 0; i < noOfSaboteurs; i++) {
       const cardsForSingleSabot = new Array<GoldNuggetCard>();

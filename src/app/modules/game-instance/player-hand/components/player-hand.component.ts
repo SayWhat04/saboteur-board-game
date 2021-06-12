@@ -28,7 +28,6 @@ export class PlayerHandComponent implements OnInit {
   @Input() boardFieldsDropIds: Array<string>;
   @Input() currentPlayerIndex: number;
 
-  // TODO: Test
   playersTemp: Array<Player>;
   playersNames: Array<string>;
   player: Player;

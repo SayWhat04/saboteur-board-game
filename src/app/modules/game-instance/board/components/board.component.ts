@@ -70,26 +70,19 @@ export class BoardComponent implements OnInit {
     return this.dropPredicatesService.getPredicate({fieldRowIndex, fieldColumnIndex, board, player});
   }
 
-  // TODO: Try to refactor
   public async dropToBoard(cdkDragDropEvent: CdkDragDrop<[Card], any>,
                            fieldRowIndex: number, fieldColumnIndex: number,
                            board: Board) {
     const dragContainer = cdkDragDropEvent.previousContainer;
     const draggedCard = dragContainer.data[cdkDragDropEvent.previousIndex];
 
-    if (cdkDragDropEvent.isPointerOverContainer) { // TODO: Test!!
+    if (cdkDragDropEvent.isPointerOverContainer) {// TODO: Try to refactor
       if (draggedCard.type === ActionCardType.MAP || draggedCard.type === ActionCardType.ROCK_FALL) {
         this.discardPileTemp.unshift(draggedCard);
         await this.gamesService.patchNonArrayValue(this.gameId, {discardPileState: this.discardPileTemp});
       }
       this.dropActionService.drop(cdkDragDropEvent, {fieldRowIndex, fieldColumnIndex, board});
 
-      // TODO: Move to separate method
-      // const playerIndex = this.playersTempContainer.indexOf(this.playersTempContainer
-      //   .find(pl => pl.uid === this.loggedUserId));
-      // this.playersTempContainer[playerIndex].cardsInHand = cdkDragDropEvent.previousContainer.data;
-
-      // TODO: Test
       this.playersTempContainer = this.gameLogicController.updatePlayerHand(this.playersTempContainer,
         this.loggedUserId, cdkDragDropEvent.previousContainer.data);
 

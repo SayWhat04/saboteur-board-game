@@ -9,7 +9,6 @@ import {DialogUtilsService} from '../../../../shared/services/dialog-utils/dialo
 import {MatDialogRef} from '@angular/material/dialog';
 import {EndGameSummaryDialogComponent} from '../../../../shared/components/dialogs/end-game-summary-dialog/end-game-summary-dialog.component';
 import {AuthService} from '../../../../core/authentication/auth.service';
-import {Card} from '../../../../shared/models/cards/card';
 
 @Component({
   selector: 'app-saboteur-game',

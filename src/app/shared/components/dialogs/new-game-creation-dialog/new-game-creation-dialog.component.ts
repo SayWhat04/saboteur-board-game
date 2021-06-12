@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {possibleNoOfPlayers} from '../../../../configs/game-specific-const';
+import {POSSIBLE_NO_OF_PLAYERS} from '../../../../configs/game-specific-const';
 import {GameLogicController} from '../../../services/game-logic-controller.service';
 
 @Component({
@@ -11,7 +11,7 @@ import {GameLogicController} from '../../../services/game-logic-controller.servi
   styleUrls: ['./new-game-creation-dialog.component.scss']
 })
 export class NewGameCreationDialogComponent {
-  possibleNoOfPlayers = possibleNoOfPlayers;
+  possibleNoOfPlayers = POSSIBLE_NO_OF_PLAYERS;
   newGameFormGroup: FormGroup;
   nameFormControl = new FormControl('', Validators.required);
   playersFormControl = new FormControl('', Validators.required);

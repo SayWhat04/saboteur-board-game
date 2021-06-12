@@ -13,9 +13,6 @@ import {User} from '../../shared/models/user';
 export class AuthService {
   user$: Observable<User>;
 
-  // TODO: Re-factor whole class!!!
-  // TODO: Add User state management
-
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,

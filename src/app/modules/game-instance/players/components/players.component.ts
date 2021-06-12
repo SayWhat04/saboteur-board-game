@@ -36,7 +36,6 @@ export class PlayersComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameId = this.route.snapshot.paramMap.get('id');
-    // this.playersTempContainer = this.players;
   }
 
   public dropToPlayerCardEnterPredicate(player: Player) {
@@ -46,14 +45,9 @@ export class PlayersComponent implements OnInit {
   public async dropToPlayerTile(cdkDragDropEvent: CdkDragDrop<[Card], any>, player: Player) {
     this.dropActionService.drop(cdkDragDropEvent, {player});
 
-    // const playerIndex = this.playersTempContainer.indexOf(this.playersTempContainer
-    //   .find(pl => pl.uid === this.loggedUserId));
-    // this.playersTempContainer[playerIndex].cardsInHand = cdkDragDropEvent.previousContainer.data;
-    // TODO: Test
     this.playersTempContainer = this.gameLogicController.updatePlayerHand(this.playersTempContainer,
       this.loggedUserId, cdkDragDropEvent.previousContainer.data);
 
-    // TODO: Test
     await this.gamesService.patchNonArrayValue(this.gameId, {players: this.playersTempContainer});
     this.turnEnd.emit();
   }

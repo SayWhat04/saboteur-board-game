@@ -3,6 +3,7 @@ import {CardType} from '../cards/card-type-property.enum';
 import {PathCardSide} from '../cards/path-card-side-property.enum';
 import {EnabledField} from './enabled-field';
 import {Coordinate} from './coordinate';
+import {IMAGES_PATH} from '../../../configs/game-specific-const';
 
 export class Board {
   cells: Array<PathCard>[][] = [];
@@ -306,7 +307,7 @@ export class Board {
 
   private setStartField() {
     const startTile = new PathCard(CardType.PATH_CARD, PathCardSide.OPENED, PathCardSide.OPENED, PathCardSide.OPENED, PathCardSide.OPENED,
-      false, false, '/assets/images/start.png', '/assets/images/start.png', true);
+      false, false, `${IMAGES_PATH}start.png`, `${IMAGES_PATH}start.png`, true);
     this.cells[this.START_FIELD_ROW_INDEX][this.START_FIELD_COLUMN_INDEX].unshift(startTile);
 
     this.enableNeighbourCells(this.START_FIELD_ROW_INDEX, this.START_FIELD_COLUMN_INDEX,
@@ -319,16 +320,16 @@ export class Board {
     const endFieldPlaceholder = new PathCard(CardType.PLACEHOLDER,
       PathCardSide.OPENED, PathCardSide.OPENED, PathCardSide.OPENED, PathCardSide.OPENED,
       false, false,
-      '/assets/images/end_placeholder.png', '/assets/images/end_placeholder.png',
+      `${IMAGES_PATH}end_placeholder.png`, `${IMAGES_PATH}end_placeholder.png`,
       true);
 
     const exitCards = new Array<PathCard>();
     exitCards.push(new PathCard(CardType.GOAL_DEAD_END, PathCardSide.CLOSED, PathCardSide.OPENED, PathCardSide.CLOSED, PathCardSide.OPENED,
-      false, false, '/assets/images/end_1.png', '/assets/images/end_1_rotated.png', true));
+      false, false, `${IMAGES_PATH}end_1.png`, `${IMAGES_PATH}end_1_rotated.png`, true));
     exitCards.push(new PathCard(CardType.GOAL_DEAD_END, PathCardSide.OPENED, PathCardSide.CLOSED, PathCardSide.CLOSED, PathCardSide.OPENED,
-      false, false, '/assets/images/end_2.png', '/assets/images/end_2_rotated.png', true));
+      false, false, `${IMAGES_PATH}end_2.png`, `${IMAGES_PATH}end_2_rotated.png`, true));
     exitCards.push(new PathCard(CardType.GOAL_GOLD, PathCardSide.OPENED, PathCardSide.OPENED, PathCardSide.OPENED, PathCardSide.OPENED,
-      false, false, '/assets/images/gold.png', '/assets/images/gold_rotated.png', true));
+      false, false, `${IMAGES_PATH}gold.png`, `${IMAGES_PATH}gold_rotated.png`, true));
 
     const firstRandomIndex = Math.floor(Math.random() * exitCards.length);
     this.cells[this.END_FIELD_ROW_FIRST_INDEX][this.END_FIELD_COLUMN_INDEX].unshift(exitCards.splice(firstRandomIndex, 1)[0]);
@@ -342,7 +343,6 @@ export class Board {
     this.cells[this.END_FIELD_ROW_THIRD_INDEX][this.END_FIELD_COLUMN_INDEX].unshift(exitCards.splice(thirdRandomIndex, 1)[0]);
     this.cells[this.END_FIELD_ROW_THIRD_INDEX][this.END_FIELD_COLUMN_INDEX].unshift(JSON.parse(JSON.stringify(endFieldPlaceholder)));
   }
-
 
   public getFieldsReachableFromStart(): Array<Coordinate> {
     let visited = new Array<Coordinate>();
@@ -390,7 +390,7 @@ export class Board {
   }
 
   // TODO: Refactor to two separate methods
-  public disableEnabledFields() {
+  public disablePreviouslyEnabledFields() {
     const reachableFields = this.getFieldsReachableFromStart();
 
     this.enabledFields = this.enabledFields.map(field => {
@@ -413,7 +413,7 @@ export class Board {
   }
 
   // TODO: Refactor to two separate methods
-  public enableEnabledFields() {
+  public enablePreviouslyEnabledFields() {
     const reachableFields = this.getFieldsReachableFromStart();
 
     this.enabledFields = this.enabledFields.map(field => {
