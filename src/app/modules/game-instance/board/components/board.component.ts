@@ -76,7 +76,7 @@ export class BoardComponent implements OnInit {
     const dragContainer = cdkDragDropEvent.previousContainer;
     const draggedCard = dragContainer.data[cdkDragDropEvent.previousIndex];
 
-    if (cdkDragDropEvent.isPointerOverContainer) {// TODO: Try to refactor
+    if (cdkDragDropEvent.isPointerOverContainer) {
       if (draggedCard.type === ActionCardType.MAP || draggedCard.type === ActionCardType.ROCK_FALL) {
         this.discardPileTemp.unshift(draggedCard);
         await this.gamesService.patchNonArrayValue(this.gameId, {discardPileState: this.discardPileTemp});

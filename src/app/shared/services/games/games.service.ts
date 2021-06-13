@@ -14,7 +14,7 @@ export class GamesService {
   constructor(
     private firestore: GameFirestore,
     private gamesStore: GamesStore,
-    private currentGameStore: CurrentGameStore // TODO: Unused, remove
+    private currentGameStore: CurrentGameStore
   ) {
     this.firestore.collection$().pipe(
       tap(games => {
@@ -63,17 +63,14 @@ export class GamesService {
     );
   }
 
-  getGame(gameId: string): Game {
-    this.firestore.doc$(gameId).pipe(
-      tap(game => {
-        this.currentGameStore.set({
-          loading: false,
-          game
-        });
-      })
-    ).subscribe();
-
+  getCurrentGameSnapshot(): Game {
     return this.currentGameStore.state.game;
+  }
+
+  getCurrentGame$(): Observable<Game> {
+    return this.currentGameStore.state$.pipe(
+      map(state => state.game)
+    );
   }
 
   create(game: Game) {

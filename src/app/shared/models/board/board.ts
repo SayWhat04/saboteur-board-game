@@ -4,6 +4,7 @@ import {PathCardSide} from '../cards/path-card-side-property.enum';
 import {EnabledField} from './enabled-field';
 import {Coordinate} from './coordinate';
 import {IMAGES_PATH} from '../../../configs/game-specific-const';
+import {CellSide} from './cell-side.enum';
 
 export class Board {
   cells: Array<PathCard>[][] = [];
@@ -95,11 +96,9 @@ export class Board {
   }
 
   public enableNeighbourCells(fieldRowIndex: number, fieldColumnIndex: number, pathCard: PathCard): void {
-    // TODO: Remove this after expanding board on reveal of end field
     const maxFieldColumnIndex = this.columnsInBoard - 1;
     const maxFieldRowIndex = this.rowsInBoard - 1;
 
-    // TODO: this can be checked elsewhere, move this one level up
     if (pathCard.isPassage) {
       // left side
       if (fieldColumnIndex > 0 && pathCard.leftSide === PathCardSide.OPENED) {
@@ -107,7 +106,7 @@ export class Board {
         this.addFieldToEnabledFields(fieldRowIndex, fieldColumnIndex - 1);
 
         if (this.isFieldEndField(fieldRowIndex, fieldColumnIndex - 1)) {
-          this.revealEndField(fieldRowIndex, fieldColumnIndex - 1, 'right');
+          this.revealEndField(fieldRowIndex, fieldColumnIndex - 1, CellSide.RIGHT);
         }
       }
 
@@ -117,7 +116,7 @@ export class Board {
         this.addFieldToEnabledFields(fieldRowIndex, fieldColumnIndex + 1);
 
         if (this.isFieldEndField(fieldRowIndex, fieldColumnIndex + 1)) {
-          this.revealEndField(fieldRowIndex, fieldColumnIndex + 1, 'left');
+          this.revealEndField(fieldRowIndex, fieldColumnIndex + 1, CellSide.LEFT);
         }
       }
 
@@ -127,7 +126,7 @@ export class Board {
         this.addFieldToEnabledFields(fieldRowIndex - 1, fieldColumnIndex);
 
         if (this.isFieldEndField(fieldRowIndex - 1, fieldColumnIndex)) {
-          this.revealEndField(fieldRowIndex - 1, fieldColumnIndex, 'bottom');
+          this.revealEndField(fieldRowIndex - 1, fieldColumnIndex, CellSide.BOTTOM);
         }
       }
 
@@ -137,14 +136,13 @@ export class Board {
         this.addFieldToEnabledFields(fieldRowIndex + 1, fieldColumnIndex);
 
         if (this.isFieldEndField(fieldRowIndex + 1, fieldColumnIndex)) {
-          this.revealEndField(fieldRowIndex + 1, fieldColumnIndex, 'top');
+          this.revealEndField(fieldRowIndex + 1, fieldColumnIndex, CellSide.TOP);
         }
       }
     }
   }
 
-  // TODO: Change enter side to Enum type
-  private revealEndField(fieldRow: number, fieldColumn: number, enterSide: string) {
+  private revealEndField(fieldRow: number, fieldColumn: number, enterSide: CellSide) {
     if (this.cells[fieldRow][fieldColumn].length === 3) {
       this.cells[fieldRow][fieldColumn].shift();
     }
@@ -154,10 +152,10 @@ export class Board {
       this.isGoldFound = true;
     } else {
       const endCardSides = new Map<string, PathCardSide>();
-      endCardSides.set('left', endCard.leftSide);
-      endCardSides.set('right', endCard.rightSide);
-      endCardSides.set('top', endCard.topSide);
-      endCardSides.set('bottom', endCard.bottomSide);
+      endCardSides.set(CellSide.LEFT, endCard.leftSide);
+      endCardSides.set(CellSide.RIGHT, endCard.rightSide);
+      endCardSides.set(CellSide.TOP, endCard.topSide);
+      endCardSides.set(CellSide.BOTTOM, endCard.bottomSide);
 
       if (this.shouldEndFieldBeRotated(endCardSides, enterSide)) {
         this.rotateCard(endCard);
@@ -173,16 +171,14 @@ export class Board {
     endCard.leftSide = [endCard.rightSide, endCard.rightSide = endCard.leftSide][0];
   }
 
-  // TODO: Test
   private shouldEndFieldBeRotated(endCardSides: Map<string, PathCardSide>,
-                                  enterSide: string): boolean {
+                                  enterSide: CellSide): boolean {
     return endCardSides.get(enterSide) !== PathCardSide.OPENED ||
       endCardSides.get(enterSide) !== PathCardSide.OPENED ||
       endCardSides.get(enterSide) !== PathCardSide.OPENED ||
       endCardSides.get(enterSide) !== PathCardSide.OPENED;
   }
 
-  // TODO: Check if this can be replaced with Set
   private addFieldToEnabledFields(rowIndex: number, columnIndex: number): void {
     if (!this.enabledFields.some(enField => enField.rowIndex === rowIndex && enField.columnIndex === columnIndex) &&
       this.cells[rowIndex][columnIndex].length < 2) {
@@ -227,8 +223,16 @@ export class Board {
     this.addDropIdsForNewRow();
     this.cells.unshift(this.generateNewRow());
 
-    // TODO: Move to separate method
-    this.enabledFields = this.enabledFields.map(field => {
+    this.enabledFields = this.updateEnabledFieldsRows(this.enabledFields);
+    this.rowsInBoard++;
+    this.START_FIELD_ROW_INDEX++;
+    this.END_FIELD_ROW_FIRST_INDEX++;
+    this.END_FIELD_ROW_SECOND_INDEX++;
+    this.END_FIELD_ROW_THIRD_INDEX++;
+  }
+
+  private updateEnabledFieldsRows(enabledFields: Array<EnabledField>) {
+    return enabledFields.map(field => {
       const updatedField: EnabledField = {
         rowIndex: field.rowIndex + 1,
         columnIndex: field.columnIndex,
@@ -236,12 +240,6 @@ export class Board {
       };
       return updatedField;
     });
-
-    this.rowsInBoard++;
-    this.START_FIELD_ROW_INDEX++;
-    this.END_FIELD_ROW_FIRST_INDEX++;
-    this.END_FIELD_ROW_SECOND_INDEX++;
-    this.END_FIELD_ROW_THIRD_INDEX++;
   }
 
   public addColumnAtEnd(): void {
@@ -262,8 +260,14 @@ export class Board {
       this.boardFieldsIds.push(index + '' + this.columnsInBoard);
     });
 
-    // TODO: Move to separate method
-    this.enabledFields = this.enabledFields.map(field => {
+    this.enabledFields = this.updateEnabledFieldsColumns(this.enabledFields);
+    this.columnsInBoard++;
+    this.START_FIELD_COLUMN_INDEX++;
+    this.END_FIELD_COLUMN_INDEX++;
+  }
+
+  private updateEnabledFieldsColumns(enabledFields: Array<EnabledField>) {
+    return enabledFields.map(field => {
       const updatedField: EnabledField = {
         rowIndex: field.rowIndex,
         columnIndex: field.columnIndex + 1,
@@ -271,10 +275,6 @@ export class Board {
       };
       return updatedField;
     });
-
-    this.columnsInBoard++;
-    this.START_FIELD_COLUMN_INDEX++;
-    this.END_FIELD_COLUMN_INDEX++;
   }
 
   private generateNewRow() {
@@ -357,81 +357,70 @@ export class Board {
         continue;
       }
       visited.push(curr);
-      const currCell = this.cells[curr.getX()][curr.getY()];
+      const currCell = this.cells[curr.getRowIndex()][curr.getColIndex()];
 
       if (!(currCell.length === 2)) {
         continue;
       }
 
       // left
-      if (this.isFieldOnBoard(curr.getX(), curr.getY() - 1) && currCell[0].leftSide === PathCardSide.OPENED) {
-        tempStack.push(new Coordinate(curr.getX(), curr.getY() - 1));
+      if (this.isFieldOnBoard(curr.getRowIndex(), curr.getColIndex() - 1) && currCell[0].leftSide === PathCardSide.OPENED) {
+        tempStack.push(new Coordinate(curr.getRowIndex(), curr.getColIndex() - 1));
       }
       // right
-      if (this.isFieldOnBoard(curr.getX(), curr.getY() + 1) && currCell[0].rightSide === PathCardSide.OPENED) {
-        tempStack.push(new Coordinate(curr.getX(), curr.getY() + 1));
+      if (this.isFieldOnBoard(curr.getRowIndex(), curr.getColIndex() + 1) && currCell[0].rightSide === PathCardSide.OPENED) {
+        tempStack.push(new Coordinate(curr.getRowIndex(), curr.getColIndex() + 1));
       }
       // top
-      if (this.isFieldOnBoard(curr.getX() - 1, curr.getY()) && currCell[0].topSide === PathCardSide.OPENED) {
-        tempStack.push(new Coordinate(curr.getX() - 1, curr.getY()));
+      if (this.isFieldOnBoard(curr.getRowIndex() - 1, curr.getColIndex()) && currCell[0].topSide === PathCardSide.OPENED) {
+        tempStack.push(new Coordinate(curr.getRowIndex() - 1, curr.getColIndex()));
       }
       // bottom
-      if (this.isFieldOnBoard(curr.getX() + 1, curr.getY()) && currCell[0].bottomSide === PathCardSide.OPENED) {
-        tempStack.push(new Coordinate(curr.getX() + 1, curr.getY()));
+      if (this.isFieldOnBoard(curr.getRowIndex() + 1, curr.getColIndex()) && currCell[0].bottomSide === PathCardSide.OPENED) {
+        tempStack.push(new Coordinate(curr.getRowIndex() + 1, curr.getColIndex()));
       }
     }
-    visited = visited.filter(v => this.cells[v.getX()][v.getY()].length !== 2);
+    visited = visited.filter(v => this.cells[v.getRowIndex()][v.getColIndex()].length !== 2);
     return visited;
   }
 
-  // TODO: Re-factor, re-name
   private isCoordinatePresentInArray(coordinate: Coordinate, array: Array<Coordinate>): boolean {
-    return array.some(el => el.getX() === coordinate.getX() && el.getY() === coordinate.getY());
+    return array.some(el => el.getRowIndex() === coordinate.getRowIndex() && el.getColIndex() === coordinate.getColIndex());
   }
 
-  // TODO: Refactor to two separate methods
   public disablePreviouslyEnabledFields() {
     const reachableFields = this.getFieldsReachableFromStart();
-
-    this.enabledFields = this.enabledFields.map(field => {
-      const updatedField = {
-        rowIndex: field.rowIndex,
-        columnIndex: field.columnIndex,
-        shouldBeEnabled: reachableFields
-          .some(coordinate => coordinate.getX() === field.rowIndex && coordinate.getY() === field.columnIndex)
-          ? field.shouldBeEnabled
-          : false
-      };
-      return updatedField;
-    });
+    this.enabledFields = this.updateEnabledFields(reachableFields);
 
     this.enabledFields
       .filter(field => field.shouldBeEnabled === false)
       .filter(field => reachableFields.some(
-        reachField => reachField.getX() !== field.rowIndex && reachField.getY() !== field.columnIndex))
+        reachField => reachField.getRowIndex() !== field.rowIndex && reachField.getColIndex() !== field.columnIndex))
       .forEach(field => this.cells[field.rowIndex][field.columnIndex][0].enabled = false);
   }
 
-  // TODO: Refactor to two separate methods
-  public enablePreviouslyEnabledFields() {
-    const reachableFields = this.getFieldsReachableFromStart();
-
-    this.enabledFields = this.enabledFields.map(field => {
+  private updateEnabledFields(reachableFields: Array<Coordinate>) {
+    return this.enabledFields.map(field => {
       const updatedField = {
         rowIndex: field.rowIndex,
         columnIndex: field.columnIndex,
         shouldBeEnabled: reachableFields
-          .some(coordinate => coordinate.getX() === field.rowIndex && coordinate.getY() === field.columnIndex)
+          .some(coordinate => coordinate.getRowIndex() === field.rowIndex && coordinate.getColIndex() === field.columnIndex)
           ? field.shouldBeEnabled
           : false
       };
       return updatedField;
     });
+  }
+
+  public enablePreviouslyEnabledFields() {
+    const reachableFields = this.getFieldsReachableFromStart();
+    this.enabledFields = this.updateEnabledFields(reachableFields);
 
     this.enabledFields
       .filter(field => field.shouldBeEnabled === false)
       .filter(field => reachableFields.some(
-        reachField => reachField.getX() === field.rowIndex && reachField.getY() === field.columnIndex))
+        reachField => reachField.getRowIndex() === field.rowIndex && reachField.getColIndex() === field.columnIndex))
       .forEach(field => this.cells[field.rowIndex][field.columnIndex][0].enabled = true);
   }
 }

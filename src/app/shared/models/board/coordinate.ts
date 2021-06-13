@@ -1,15 +1,14 @@
-// TODO: Re-factor to change x -> rowIndex, y -> colIndex
 export class Coordinate {
-  constructor(private x: number,
-              private y: number,
+  constructor(private rowIndex: number,
+              private colIndex: number,
               private parent?: Coordinate) {
   }
 
-  public getX(): number {
-    return this.x;
+  public getRowIndex(): number {
+    return this.rowIndex;
   }
 
-  public getY(): number {
-    return this.y;
+  public getColIndex(): number {
+    return this.colIndex;
   }
 }

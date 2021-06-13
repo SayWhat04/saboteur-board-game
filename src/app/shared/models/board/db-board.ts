@@ -1,7 +1,8 @@
 import {EnabledField} from './enabled-field';
+import {DbBoardCell} from './db-board-cell';
 
 export interface DbBoard {
-  cells: Array<any>; // TODO: Create type/interface for cell containment!!!
+  cells: Array<DbBoardCell>;
   boardFieldsIds: Array<string>;
   START_FIELD_ROW_INDEX: number;
   START_FIELD_COLUMN_INDEX: number;

@@ -13,6 +13,7 @@ export class GameDeck extends Deck<Card> {
   }
 
   fillDeck(): void {
+    /*
     this.cards.push(new PathCard(CardType.PATH_CARD, PathCardSide.CLOSED, PathCardSide.OPENED, PathCardSide.CLOSED, PathCardSide.OPENED,
       false, false, `${IMAGES_PATH}1.png`, `${IMAGES_PATH}1_rotated.png`, false));
     this.cards.push(new PathCard(CardType.PATH_CARD, PathCardSide.OPENED, PathCardSide.CLOSED, PathCardSide.CLOSED, PathCardSide.OPENED,
@@ -69,7 +70,7 @@ export class GameDeck extends Deck<Card> {
 
     for (let i = 0; i < 3; i++) {
       this.cards.push(new ActionCard(CardType.ACTION_CARD, ActionCardType.ROCK_FALL, `${IMAGES_PATH}rock_fall.png`));
-    }
+    }*/
 
     for (let i = 0; i < 3; i++) {
       this.cards.push(new ActionCard(CardType.ACTION_CARD, ActionCardType.MAP, `${IMAGES_PATH}map.png`));

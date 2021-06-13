@@ -6,15 +6,15 @@ import {DialogUtilsService} from '../../../../shared/services/dialog-utils/dialo
 import {ActionCard} from '../../../../shared/models/cards/action-card';
 import {Player} from '../../../../shared/models/player';
 import {DropAction} from '../../../../shared/services/drag-and-drop-actions/drop-action';
+import {GamesService} from '../../../../shared/services/games/games.service';
 
 @Injectable()
 export class DropToPlayersActionService implements DropAction {
 
-  constructor(private dialogUtilsService: DialogUtilsService) {
+  constructor(private dialogUtilsService: DialogUtilsService, private gamesService: GamesService) {
   }
 
-  drop(cdkDragDropEvent: CdkDragDrop<[Card], any>, additionalData: { player: Player }): void {
-
+  async drop(cdkDragDropEvent: CdkDragDrop<[Card], any>, additionalData: { player: Player }) {
     const actionCardType = (cdkDragDropEvent.previousContainer.data[cdkDragDropEvent.previousIndex] as ActionCard).type;
     const dragContainer = cdkDragDropEvent.previousContainer;
     const dropContainer = cdkDragDropEvent.container;
@@ -54,6 +54,11 @@ export class DropToPlayersActionService implements DropAction {
         }
       });
       dialogRef.afterClosed().subscribe(selectedTool => {
+
+        // TODO: Test
+        console.log('selected Tool: ', selectedTool);
+
+
         this.setToolState(selectedTool, player);
       });
     }
@@ -73,6 +78,11 @@ export class DropToPlayersActionService implements DropAction {
         }
       });
       dialogRef.afterClosed().subscribe(selectedTool => {
+
+        // TODO: Test
+        console.log('selected Tool: ', selectedTool);
+
+
         this.setToolState(selectedTool, player);
       });
     }
@@ -91,6 +101,11 @@ export class DropToPlayersActionService implements DropAction {
         }
       });
       dialogRef.afterClosed().subscribe(selectedTool => {
+
+
+        // TODO: Test
+        console.log('selected Tool: ', selectedTool);
+
         this.setToolState(selectedTool, player);
       });
     }
@@ -98,6 +113,9 @@ export class DropToPlayersActionService implements DropAction {
 
   public setToolState(actionCardType: ActionCardType, player: Player): void {
     // TODO: Re-factor to switch statement
+    console.log('actionCardType: ', actionCardType);
+    console.log('player: ', player);
+
     if (actionCardType === ActionCardType.DESTROY_PICKAXE) {
       player.isPickaxeValid = false;
     }
@@ -117,5 +135,36 @@ export class DropToPlayersActionService implements DropAction {
     if (actionCardType === ActionCardType.REPAIR_LAMP) {
       player.isLampValid = true;
     }
+
+    /*
+    switch (actionCardType) {
+      case ActionCardType.DESTROY_PICKAXE: {
+        player.isPickaxeValid = false;
+        break;
+      }
+      case ActionCardType.DESTROY_CART: {
+        player.isCartValid = false;
+        break;
+      }
+      case ActionCardType.DESTROY_LAMP: {
+        player.isLampValid = false;
+        break;
+      }
+      case ActionCardType.REPAIR_PICKAXE: {
+        player.isPickaxeValid = true;
+        break;
+      }
+      case ActionCardType.REPAIR_CART: {
+        player.isCartValid = true;
+        break;
+      }
+      case ActionCardType.REPAIR_LAMP: {
+        player.isLampValid = true;
+        break;
+      }
+      default: {
+        break;
+      }
+    }*/
   }
 }

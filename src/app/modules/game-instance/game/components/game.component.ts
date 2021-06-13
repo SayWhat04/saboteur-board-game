@@ -20,7 +20,6 @@ export class GameComponent implements OnInit {
   player: Player;
   loggedUserId: string;
 
-  // TODO: Move this to separate state service
   private gameId: string;
   public game: Game;
   private endGameDialogRef: MatDialogRef<EndGameSummaryDialogComponent, any>;
@@ -54,7 +53,6 @@ export class GameComponent implements OnInit {
       }
     });
 
-    // TODO: Test
     this.auth.getUser().then(user => {
       this.loggedUserId = user.uid;
       this.player = this.game.players.find(player => player.uid === this.loggedUserId);

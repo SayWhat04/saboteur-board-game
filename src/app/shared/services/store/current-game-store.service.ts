@@ -12,7 +12,7 @@ export class CurrentGameStore extends StoreService<GameState> {
   constructor() {
     super({
       loading: true,
-      game: {} as Game, // TODO: Re-factor this somehow
+      game: {} as Game,
     });
   }
 }

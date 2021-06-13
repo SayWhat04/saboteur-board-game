@@ -3,7 +3,6 @@ import {Card} from './card';
 import {CardType} from './card-type-property.enum';
 
 export class PathCard extends Card {
-  // TODO: Re-factor order of fields
   constructor(
     public cardType: CardType,
     public leftSide: PathCardSide,

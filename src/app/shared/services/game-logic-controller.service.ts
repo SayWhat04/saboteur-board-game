@@ -123,10 +123,6 @@ export class GameLogicController {
   // TODO: Re-factor
   async distributeGold(game: Game, gameId: string) {
     const winnerRole = this.getWinnerRole(game);
-
-    // TODO: Test
-    console.log('winnerRole: ', PlayerRole[winnerRole]);
-
     const goldNuggetsDeckState = game.goldNuggetsDeckState;
     const goldNuggetDeck = new GoldNuggetsDeck(goldNuggetsDeckState);
     const tempPlayers = game.players;
@@ -285,13 +281,9 @@ export class GameLogicController {
       loggedUser.uid);
   }
 
-
-  // TODO:
   public updatePlayerHand(players: Array<Player>, loggedUserId: string, cardsInHand: Array<Card>): Array<Player> {
     const playerIndex = players.indexOf(players.find(pl => pl.uid === loggedUserId));
     players[playerIndex].cardsInHand = cardsInHand;
-
     return players;
   }
-
 }

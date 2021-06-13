@@ -44,10 +44,13 @@ export class DropToBoardActionService implements DropAction {
       [],
       cdkDragDropEvent.previousIndex, 0);
 
+    console.warn(JSON.stringify(boardElement));
+
+    const endCardIndex = boardElement.length - 2;
+
     this.dialogUtilsService.openMapCardDialog({
       data: {
-        // TODO: This in not intuitive. Why 2?
-        url: boardElement[boardElement.length - 2].imagePath
+        url: boardElement[endCardIndex].imagePath
       }
     });
   }
@@ -55,7 +58,6 @@ export class DropToBoardActionService implements DropAction {
   private dropRockFall(cdkDragDropEvent: CdkDragDrop<[Card], any>, fieldRowIndex: number, fieldColumnIndex: number, board: Board): void {
     board.cells[fieldRowIndex][fieldColumnIndex].splice(0, 1);
 
-    // TODO: This can be removed and replaced with saving card in discard pile in DB
     transferArrayItem(cdkDragDropEvent.previousContainer.data,
       [],
       cdkDragDropEvent.previousIndex, 0);

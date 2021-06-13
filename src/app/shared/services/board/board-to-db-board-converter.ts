@@ -9,16 +9,13 @@ import {Injectable} from '@angular/core';
 })
 export class BoardToDbBoardConverter implements DataConverter<Board, DbBoard> {
   convert(board: Board): DbBoard {
-    // TODO: This should be changed, this is only one field of dbBoard
     const dbBoardCells = new Array<DbBoardCell>();
 
     for (let i = 0; i < board.rowsInBoard; i++) {
       for (let j = 0; j < board.columnsInBoard; j++) {
-        // TODO: Rename this
         const singleCell = board.cells[i][j];
         const dbSingleCell = new Array<{}>();
 
-        // TODO: Change to map function
         singleCell.forEach(card => {
           const dbCard = {
             cardType: card.cardType,

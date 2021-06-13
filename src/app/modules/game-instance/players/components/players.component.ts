@@ -43,7 +43,8 @@ export class PlayersComponent implements OnInit {
   }
 
   public async dropToPlayerTile(cdkDragDropEvent: CdkDragDrop<[Card], any>, player: Player) {
-    this.dropActionService.drop(cdkDragDropEvent, {player});
+
+    await this.dropActionService.drop(cdkDragDropEvent, {player});
 
     this.playersTempContainer = this.gameLogicController.updatePlayerHand(this.playersTempContainer,
       this.loggedUserId, cdkDragDropEvent.previousContainer.data);

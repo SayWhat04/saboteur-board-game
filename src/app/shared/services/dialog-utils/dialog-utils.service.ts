@@ -10,18 +10,17 @@ import {EndGameSummaryDialogComponent} from '../../components/dialogs/end-game-s
 })
 export class DialogUtilsService {
 
-  // TODO: Add types to configuration
   constructor(public dialog: MatDialog) { }
 
-  public openMapCardDialog(config: any): MatDialogRef<MapCardDialogComponent, any> {
+  public openMapCardDialog(config: MatDialogConfig): MatDialogRef<MapCardDialogComponent, any> {
     return this.dialog.open(MapCardDialogComponent, config);
   }
 
-  public openDoubleRepairCardDialog(config: any): MatDialogRef<DoubleRepairCardDialogComponent, any> {
+  public openDoubleRepairCardDialog(config: MatDialogConfig): MatDialogRef<DoubleRepairCardDialogComponent, any> {
     return this.dialog.open(DoubleRepairCardDialogComponent, config);
   }
 
-  public openNewGameCreationDialog(config: any): MatDialogRef<NewGameCreationDialogComponent, any>  {
+  public openNewGameCreationDialog(config: MatDialogConfig): MatDialogRef<NewGameCreationDialogComponent, any>  {
     return this.dialog.open(NewGameCreationDialogComponent, config);
   }
 
