@@ -4,16 +4,7 @@
 
 export const environment = {
   production: true,
-  firebase: {
-    apiKey: 'AIzaSyCLWQ8iPTJGDHfYgVJrWWJ6WAtrLl8ic1A',
-    authDomain: 'saboteur-game-backend.firebaseapp.com',
-    databaseURL: 'https://saboteur-game-backend.firebaseio.com',
-    projectId: 'saboteur-game-backend',
-    storageBucket: 'saboteur-game-backend.appspot.com',
-    messagingSenderId: '447875285417',
-    appId: '1:447875285417:web:407b58f364a44f1e0844b8',
-    measurementId: 'G-7SETS70N3L'
-  }
+
 };
 
 /*
