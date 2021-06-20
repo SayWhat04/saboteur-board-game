@@ -54,16 +54,16 @@ export class PlayerHandComponent implements OnInit {
     this.gameId = this.route.snapshot.paramMap.get('id');
   }
 
-  public moveCardInHand(cdkDragDropEvent: CdkDragDrop<[Card], any>): void {
+  moveCardInHand(cdkDragDropEvent: CdkDragDrop<[Card], any>): void {
     this.dropActionService.drop(cdkDragDropEvent);
   }
 
-  public rotatePathCard(cardIndex: number) {
+  rotatePathCard(cardIndex: number) {
     const cardFromHand = this.player.cardsInHand[cardIndex] as PathCard;
     this.gameLogicController.rotateCard(cardFromHand);
   }
 
-  public isLoggedPlayerTurn(): boolean {
+  isLoggedPlayerTurn(): boolean {
     return this.playersTemp[this.currentPlayerIndex].uid === this.loggedUserId;
   }
 }

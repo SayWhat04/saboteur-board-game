@@ -53,7 +53,7 @@ export class GameStateComponent implements OnInit {
     this.gameId = this.route.snapshot.paramMap.get('id');
   }
 
-  public async dropToDiscardPile(cdkDragDropEvent: CdkDragDrop<[Card], any>) {
+  async dropToDiscardPile(cdkDragDropEvent: CdkDragDrop<[Card], any>) {
     this.dropActionService.drop(cdkDragDropEvent);
 
     this.playersTempContainer = this.gameLogicController.updatePlayerHand(this.playersTempContainer,

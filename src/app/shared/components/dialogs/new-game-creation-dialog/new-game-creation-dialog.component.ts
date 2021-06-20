@@ -29,7 +29,7 @@ export class NewGameCreationDialogComponent {
     });
   }
 
-  public async createGame(gameName: string, players: number) {
+  async createGame(gameName: string, players: number) {
     const gameId = await this.gameLogicController.createGame(gameName, players);
     this.dialogRef.close();
     await this.router.navigate(['lobby', gameId]);

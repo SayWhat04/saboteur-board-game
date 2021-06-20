@@ -38,13 +38,13 @@ export class PlayersComponent implements OnInit {
     this.gameId = this.route.snapshot.paramMap.get('id');
   }
 
-  public dropToPlayerCardEnterPredicate(player: Player) {
+  dropToPlayerCardEnterPredicate(player: Player) {
     return this.dropPredicatesService.getPredicate(player);
   }
 
-  public async dropToPlayerTile(cdkDragDropEvent: CdkDragDrop<[Card], any>, player: Player) {
+  async dropToPlayerTile(cdkDragDropEvent: CdkDragDrop<[Card], any>, player: Player, loggedUserId, gameId) {
 
-    await this.dropActionService.drop(cdkDragDropEvent, {player});
+    await this.dropActionService.drop(cdkDragDropEvent, {player, loggedUserId, gameId});
 
     this.playersTempContainer = this.gameLogicController.updatePlayerHand(this.playersTempContainer,
       this.loggedUserId, cdkDragDropEvent.previousContainer.data);
@@ -53,7 +53,7 @@ export class PlayersComponent implements OnInit {
     this.turnEnd.emit();
   }
 
-  public getPlayerByUid(userId: string): Player {
+  getPlayerByUid(userId: string): Player {
     return (this.playersTempContainer as Array<Player>).find(player => player.uid === userId);
   }
 }

@@ -281,9 +281,20 @@ export class GameLogicController {
       loggedUser.uid);
   }
 
-  public updatePlayerHand(players: Array<Player>, loggedUserId: string, cardsInHand: Array<Card>): Array<Player> {
+  updatePlayerHand(players: Array<Player>, loggedUserId: string, cardsInHand: Array<Card>): Array<Player> {
     const playerIndex = players.indexOf(players.find(pl => pl.uid === loggedUserId));
     players[playerIndex].cardsInHand = cardsInHand;
     return players;
+  }
+
+  updatePlayer(players: Array<Player>, loggedUserId: string, updatedPlayer: Player): Array<Player> {
+    const playerIndex = players.indexOf(players.find(pl => pl.uid === loggedUserId));
+    players[playerIndex] = updatedPlayer;
+    return players;
+  }
+
+  getLoggedPlayer(players: Array<Player>, loggedUserId: string): Player {
+    const playerIndex = players.indexOf(players.find(pl => pl.uid === loggedUserId));
+    return players[playerIndex];
   }
 }

@@ -7,30 +7,34 @@ import {ActionCard} from '../../../../shared/models/cards/action-card';
 import {Player} from '../../../../shared/models/player';
 import {DropAction} from '../../../../shared/services/drag-and-drop-actions/drop-action';
 import {GamesService} from '../../../../shared/services/games/games.service';
+import {Game} from '../../../../shared/models/game';
+import {GameLogicController} from '../../../../shared/services/game-logic-controller.service';
 
 @Injectable()
 export class DropToPlayersActionService implements DropAction {
 
-  constructor(private dialogUtilsService: DialogUtilsService, private gamesService: GamesService) {
+  constructor(private dialogUtilsService: DialogUtilsService,
+              private gamesService: GamesService,
+              private gameLogicController: GameLogicController) {
   }
 
-  async drop(cdkDragDropEvent: CdkDragDrop<[Card], any>, additionalData: { player: Player }) {
+  async drop(cdkDragDropEvent: CdkDragDrop<[Card], any>, additionalData: { player: Player, loggedUserId: string, gameId: string }) {
     const actionCardType = (cdkDragDropEvent.previousContainer.data[cdkDragDropEvent.previousIndex] as ActionCard).type;
     const dragContainer = cdkDragDropEvent.previousContainer;
     const dropContainer = cdkDragDropEvent.container;
 
     switch (actionCardType) {
       case ActionCardType.REPAIR_CART_OR_PICKAXE:
-        this.repairCartOrPickaxe(additionalData.player);
+        this.repairCartOrPickaxe(additionalData);
         break;
       case ActionCardType.REPAIR_LAMP_OR_PICKAXE:
-        this.repairLampOrPickaxe(additionalData.player);
+        this.repairLampOrPickaxe(additionalData);
         break;
       case ActionCardType.REPAIR_LAMP_OR_CART:
-        this.repairLampOrCart(additionalData.player);
+        this.repairLampOrCart(additionalData);
         break;
       default:
-        this.setToolState(actionCardType, additionalData.player);
+        this.setToolState(actionCardType, additionalData);
     }
 
     if (dragContainer === dropContainer) {
@@ -41,11 +45,11 @@ export class DropToPlayersActionService implements DropAction {
     }
   }
 
-  private repairCartOrPickaxe(player: Player): void {
-    if (player.isCartValid && !player.isPickaxeValid) {
-      player.isPickaxeValid = true;
-    } else if (!player.isCartValid && player.isPickaxeValid) {
-      player.isCartValid = true;
+  private repairCartOrPickaxe(additionalData: { player: Player, loggedUserId: string, gameId: string }): void {
+    if (additionalData.player.isCartValid && !additionalData.player.isPickaxeValid) {
+      additionalData.player.isPickaxeValid = true;
+    } else if (!additionalData.player.isCartValid && additionalData.player.isPickaxeValid) {
+      additionalData.player.isCartValid = true;
     } else {
       const dialogRef = this.dialogUtilsService.openDoubleRepairCardDialog({
         data: {
@@ -54,22 +58,17 @@ export class DropToPlayersActionService implements DropAction {
         }
       });
       dialogRef.afterClosed().subscribe(selectedTool => {
-
-        // TODO: Test
-        console.log('selected Tool: ', selectedTool);
-
-
-        this.setToolState(selectedTool, player);
+        this.setToolState(selectedTool, additionalData);
       });
     }
 
   }
 
-  private repairLampOrPickaxe(player: Player): void {
-    if (player.isLampValid && !player.isPickaxeValid) {
-      player.isPickaxeValid = true;
-    } else if (!player.isLampValid && player.isPickaxeValid) {
-      player.isLampValid = true;
+  private repairLampOrPickaxe(additionalData: { player: Player, loggedUserId: string, gameId: string }): void {
+    if (additionalData.player.isLampValid && !additionalData.player.isPickaxeValid) {
+      additionalData.player.isPickaxeValid = true;
+    } else if (!additionalData.player.isLampValid && additionalData.player.isPickaxeValid) {
+      additionalData.player.isLampValid = true;
     } else {
       const dialogRef = this.dialogUtilsService.openDoubleRepairCardDialog({
         data: {
@@ -78,21 +77,16 @@ export class DropToPlayersActionService implements DropAction {
         }
       });
       dialogRef.afterClosed().subscribe(selectedTool => {
-
-        // TODO: Test
-        console.log('selected Tool: ', selectedTool);
-
-
-        this.setToolState(selectedTool, player);
+        this.setToolState(selectedTool, additionalData);
       });
     }
   }
 
-  private repairLampOrCart(player: Player) {
-    if (player.isLampValid && !player.isCartValid) {
-      player.isCartValid = true;
-    } else if (!player.isLampValid && player.isCartValid) {
-      player.isLampValid = true;
+  private repairLampOrCart(additionalData: { player: Player, loggedUserId: string, gameId: string }) {
+    if (additionalData.player.isLampValid && !additionalData.player.isCartValid) {
+      additionalData.player.isCartValid = true;
+    } else if (!additionalData.player.isLampValid && additionalData.player.isCartValid) {
+      additionalData.player.isLampValid = true;
     } else {
       const dialogRef = this.dialogUtilsService.openDoubleRepairCardDialog({
         data: {
@@ -101,70 +95,53 @@ export class DropToPlayersActionService implements DropAction {
         }
       });
       dialogRef.afterClosed().subscribe(selectedTool => {
-
-
-        // TODO: Test
-        console.log('selected Tool: ', selectedTool);
-
-        this.setToolState(selectedTool, player);
+        this.setToolState(selectedTool, additionalData);
       });
     }
   }
 
-  public setToolState(actionCardType: ActionCardType, player: Player): void {
-    // TODO: Re-factor to switch statement
-    console.log('actionCardType: ', actionCardType);
-    console.log('player: ', player);
+  async setToolState(actionCardType: ActionCardType, additionalData: { player: Player, loggedUserId: string, gameId: string }) {
 
-    if (actionCardType === ActionCardType.DESTROY_PICKAXE) {
-      player.isPickaxeValid = false;
-    }
-    if (actionCardType === ActionCardType.DESTROY_CART) {
-      player.isCartValid = false;
-    }
-    if (actionCardType === ActionCardType.DESTROY_LAMP) {
-      player.isLampValid = false;
-    }
-
-    if (actionCardType === ActionCardType.REPAIR_PICKAXE) {
-      player.isPickaxeValid = true;
-    }
-    if (actionCardType === ActionCardType.REPAIR_CART) {
-      player.isCartValid = true;
-    }
-    if (actionCardType === ActionCardType.REPAIR_LAMP) {
-      player.isLampValid = true;
-    }
-
-    /*
     switch (actionCardType) {
       case ActionCardType.DESTROY_PICKAXE: {
-        player.isPickaxeValid = false;
+        additionalData.player.isPickaxeValid = false;
         break;
       }
       case ActionCardType.DESTROY_CART: {
-        player.isCartValid = false;
+        additionalData.player.isCartValid = false;
         break;
       }
       case ActionCardType.DESTROY_LAMP: {
-        player.isLampValid = false;
+        additionalData.player.isLampValid = false;
         break;
       }
       case ActionCardType.REPAIR_PICKAXE: {
-        player.isPickaxeValid = true;
+        additionalData.player.isPickaxeValid = true;
         break;
       }
       case ActionCardType.REPAIR_CART: {
-        player.isCartValid = true;
+        additionalData.player.isCartValid = true;
         break;
       }
       case ActionCardType.REPAIR_LAMP: {
-        player.isLampValid = true;
+        additionalData.player.isLampValid = true;
         break;
       }
       default: {
         break;
       }
-    }*/
+    }
+    await this.updateRepairedPlayer(additionalData);
+  }
+
+  private async updateRepairedPlayer(additionalData: { player: Player; loggedUserId: string; gameId: string }) {
+    const currentGameSnapshot: Game = this.gamesService.getCurrentGameSnapshot();
+    const tempPlayers: Player[] = currentGameSnapshot.players;
+    const loggedPlayer = this.gameLogicController.getLoggedPlayer(tempPlayers, additionalData.loggedUserId);
+    loggedPlayer.isPickaxeValid = additionalData.player.isPickaxeValid;
+    loggedPlayer.isCartValid = additionalData.player.isCartValid;
+    loggedPlayer.isLampValid = additionalData.player.isLampValid;
+    this.gameLogicController.updatePlayer(tempPlayers, additionalData.loggedUserId, loggedPlayer);
+    await this.gamesService.patchNonArrayValue(additionalData.gameId, {players: tempPlayers});
   }
 }

@@ -5,6 +5,7 @@ import {map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Game} from '../../models/game';
 import {CurrentGameStore} from '../store/current-game-store.service';
+import {GameState} from '../../states/game-state';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,14 @@ export class GamesService {
     return this.currentGameStore.state$.pipe(
       map(state => state.game)
     );
+  }
+
+  patchCurrentGame(gameState: Partial<GameState>): void {
+    this.currentGameStore.patch(gameState);
+  }
+
+  async updateCurrentGame(id: string) {
+    await this.firestore.patchNonArrayValue(id, this.currentGameStore.state.game);
   }
 
   create(game: Game) {

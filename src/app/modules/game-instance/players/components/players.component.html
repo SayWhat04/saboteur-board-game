@@ -8,7 +8,7 @@
           [id]="player.name"
           [cdkDropListData]="player.actionsCardUsedOnPlayer"
           [cdkDropListConnectedTo]="mainListId"
-          (cdkDropListDropped)="dropToPlayerTile($event, player)"
+          (cdkDropListDropped)="dropToPlayerTile($event, player, loggedUserId, gameId)"
           [cdkDropListEnterPredicate]="dropToPlayerCardEnterPredicate(player)">
           <mat-spinner
             diameter="50"

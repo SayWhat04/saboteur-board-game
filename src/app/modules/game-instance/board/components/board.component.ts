@@ -66,13 +66,13 @@ export class BoardComponent implements OnInit {
     this.gameId = this.route.snapshot.paramMap.get('id');
   }
 
-  public dropToBoardEnterPredicate(fieldRowIndex: number, fieldColumnIndex: number, board: Board, player: Player) {
+  dropToBoardEnterPredicate(fieldRowIndex: number, fieldColumnIndex: number, board: Board, player: Player) {
     return this.dropPredicatesService.getPredicate({fieldRowIndex, fieldColumnIndex, board, player});
   }
 
-  public async dropToBoard(cdkDragDropEvent: CdkDragDrop<[Card], any>,
-                           fieldRowIndex: number, fieldColumnIndex: number,
-                           board: Board) {
+  async dropToBoard(cdkDragDropEvent: CdkDragDrop<[Card], any>,
+                    fieldRowIndex: number, fieldColumnIndex: number,
+                    board: Board) {
     const dragContainer = cdkDragDropEvent.previousContainer;
     const draggedCard = dragContainer.data[cdkDragDropEvent.previousIndex];
 

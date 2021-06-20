@@ -31,11 +31,11 @@ export class HomeComponent implements OnInit {
     this.games$ = this.gamesService.games$;
   }
 
-  public createGame(): any {
+  createGame(): any {
     this.dialogUtilsService.openNewGameCreationDialog({panelClass: 'new-game-dialog-container'});
   }
 
-  public async openGameLobby(gameId: string) {
+  async openGameLobby(gameId: string) {
     const authenticatedUser = await this.auth.getUser();
     let tempGame: Game;
     this.gamesService.getGame$(gameId).subscribe(game => {

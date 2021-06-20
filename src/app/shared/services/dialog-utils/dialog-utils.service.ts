@@ -12,19 +12,19 @@ export class DialogUtilsService {
 
   constructor(public dialog: MatDialog) { }
 
-  public openMapCardDialog(config: MatDialogConfig): MatDialogRef<MapCardDialogComponent, any> {
+  openMapCardDialog(config: MatDialogConfig): MatDialogRef<MapCardDialogComponent, any> {
     return this.dialog.open(MapCardDialogComponent, config);
   }
 
-  public openDoubleRepairCardDialog(config: MatDialogConfig): MatDialogRef<DoubleRepairCardDialogComponent, any> {
+  openDoubleRepairCardDialog(config: MatDialogConfig): MatDialogRef<DoubleRepairCardDialogComponent, any> {
     return this.dialog.open(DoubleRepairCardDialogComponent, config);
   }
 
-  public openNewGameCreationDialog(config: MatDialogConfig): MatDialogRef<NewGameCreationDialogComponent, any>  {
+  openNewGameCreationDialog(config: MatDialogConfig): MatDialogRef<NewGameCreationDialogComponent, any>  {
     return this.dialog.open(NewGameCreationDialogComponent, config);
   }
 
-  public openEndGameSummaryDialog(config: MatDialogConfig): MatDialogRef<EndGameSummaryDialogComponent, any>  {
+  openEndGameSummaryDialog(config: MatDialogConfig): MatDialogRef<EndGameSummaryDialogComponent, any>  {
     return this.dialog.open(EndGameSummaryDialogComponent, config);
   }
 }

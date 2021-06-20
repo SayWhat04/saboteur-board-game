@@ -29,13 +29,13 @@ export class Board {
     this.setBoardInitialState();
   }
 
-  public setBoardInitialState() {
+  setBoardInitialState() {
     this.createBoard();
     this.setStartField();
     this.setEndFields();
   }
 
-  public setBoundariesForNeighbourCells(fieldRowIndex: number, fieldColumnIndex: number, card: PathCard): void {
+  setBoundariesForNeighbourCells(fieldRowIndex: number, fieldColumnIndex: number, card: PathCard): void {
     // left side
     if (fieldColumnIndex > 0 && card.leftSide !== PathCardSide.NOT_SET) {
       this.cells[fieldRowIndex][fieldColumnIndex - 1][0].rightSide = card.leftSide;
@@ -57,7 +57,7 @@ export class Board {
     }
   }
 
-  public setBoundariesForCell(fieldRowIndex: number, fieldColumnIndex: number): void {
+  setBoundariesForCell(fieldRowIndex: number, fieldColumnIndex: number): void {
     // left side
     if (fieldColumnIndex > 0) {
       if (this.cells[fieldRowIndex][fieldColumnIndex - 1][0].rightSide === PathCardSide.NOT_SET) {
@@ -95,7 +95,7 @@ export class Board {
     }
   }
 
-  public enableNeighbourCells(fieldRowIndex: number, fieldColumnIndex: number, pathCard: PathCard): void {
+  enableNeighbourCells(fieldRowIndex: number, fieldColumnIndex: number, pathCard: PathCard): void {
     const maxFieldColumnIndex = this.columnsInBoard - 1;
     const maxFieldRowIndex = this.rowsInBoard - 1;
 
@@ -186,40 +186,40 @@ export class Board {
     }
   }
 
-  public removeFieldFromEnabledFields(rowIndex: number, columnIndex: number): void {
+  removeFieldFromEnabledFields(rowIndex: number, columnIndex: number): void {
     this.enabledFields = this.enabledFields.filter(enField => (enField.rowIndex !== rowIndex
       || enField.columnIndex !== columnIndex));
   }
 
-  public isFieldEndField(fieldRow: number, fieldColumn: number): boolean {
+  isFieldEndField(fieldRow: number, fieldColumn: number): boolean {
     return (fieldColumn === this.END_FIELD_COLUMN_INDEX) &&
       (fieldRow === this.END_FIELD_ROW_FIRST_INDEX ||
         fieldRow === this.END_FIELD_ROW_SECOND_INDEX ||
         fieldRow === this.END_FIELD_ROW_THIRD_INDEX);
   }
 
-  public isFieldStartField(fieldRow: number, fieldColumn: number): boolean {
+  isFieldStartField(fieldRow: number, fieldColumn: number): boolean {
     return fieldColumn === this.START_FIELD_COLUMN_INDEX &&
       fieldRow === this.START_FIELD_ROW_INDEX;
   }
 
-  public isFieldOnBoard(row: number, column: number): boolean {
+  isFieldOnBoard(row: number, column: number): boolean {
     return row <= this.rowsInBoard - 1 &&
       column <= this.columnsInBoard - 1 &&
       row >= 0 && column >= 0;
   }
 
-  public isCellFilledWithPath(row: number, column: number): boolean {
+  isCellFilledWithPath(row: number, column: number): boolean {
     return this.cells[row][column].length === 2;
   }
 
-  public addRowAtEnd(): void {
+  addRowAtEnd(): void {
     this.addDropIdsForNewRow();
     this.cells.push(this.generateNewRow());
     this.rowsInBoard++;
   }
 
-  public addRowAtBeginning(): void {
+  addRowAtBeginning(): void {
     this.addDropIdsForNewRow();
     this.cells.unshift(this.generateNewRow());
 
@@ -242,7 +242,7 @@ export class Board {
     });
   }
 
-  public addColumnAtEnd(): void {
+  addColumnAtEnd(): void {
     this.cells.forEach((value, index) => {
       this.cells[index].push([new PathCard(CardType.PATH_CARD,
         PathCardSide.NOT_SET, PathCardSide.NOT_SET, PathCardSide.NOT_SET, PathCardSide.NOT_SET,
@@ -252,7 +252,7 @@ export class Board {
     this.columnsInBoard++;
   }
 
-  public addColumnAtBeginning(): void {
+  addColumnAtBeginning(): void {
     this.cells.forEach((value, index) => {
       this.cells[index].unshift([new PathCard(CardType.PATH_CARD,
         PathCardSide.NOT_SET, PathCardSide.NOT_SET, PathCardSide.NOT_SET, PathCardSide.NOT_SET,
@@ -344,7 +344,7 @@ export class Board {
     this.cells[this.END_FIELD_ROW_THIRD_INDEX][this.END_FIELD_COLUMN_INDEX].unshift(JSON.parse(JSON.stringify(endFieldPlaceholder)));
   }
 
-  public getFieldsReachableFromStart(): Array<Coordinate> {
+  getFieldsReachableFromStart(): Array<Coordinate> {
     let visited = new Array<Coordinate>();
     const tempStack = new Array<Coordinate>();
     const start = new Coordinate(this.START_FIELD_ROW_INDEX, this.START_FIELD_COLUMN_INDEX);
@@ -388,7 +388,7 @@ export class Board {
     return array.some(el => el.getRowIndex() === coordinate.getRowIndex() && el.getColIndex() === coordinate.getColIndex());
   }
 
-  public disablePreviouslyEnabledFields() {
+  disablePreviouslyEnabledFields() {
     const reachableFields = this.getFieldsReachableFromStart();
     this.enabledFields = this.updateEnabledFields(reachableFields);
 
@@ -413,7 +413,7 @@ export class Board {
     });
   }
 
-  public enablePreviouslyEnabledFields() {
+  enablePreviouslyEnabledFields() {
     const reachableFields = this.getFieldsReachableFromStart();
     this.enabledFields = this.updateEnabledFields(reachableFields);
 

@@ -41,7 +41,7 @@ export class GameLobbyComponent implements OnInit, OnDestroy {
     this.currentGameSubscription.unsubscribe();
   }
 
-  public canGameBeStarted(): any {
+  canGameBeStarted(): any {
     return this.game.gameHost !== this.loggedUserId || this.isGameStarted;
   }
 
